@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../notifications/fcm_service.dart';
 import 'task_model.dart';
@@ -12,17 +11,19 @@ class TaskService {
     DocumentReference docRef = await _taskCollection.add(task.toMap());
     await docRef.update({'id': docRef.id});
 
-    FirebaseMessaging.instance.subscribeToTopic("tasks");
-
     FCMService().showNotification("New Task", task.title);
   }
 
   Future<void> updateTask(Task task) async {
     await _taskCollection.doc(task.id).update(task.toMap());
+
+    FCMService().showNotification("Update Task", task.title);
   }
 
   Future<void> deleteTask(String id) async {
     await _taskCollection.doc(id).delete();
+
+    FCMService().showNotification("Deleted Task", id);
   }
 
   Stream<List<Task>> getTasks() {
