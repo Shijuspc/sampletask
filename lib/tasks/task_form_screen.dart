@@ -15,14 +15,14 @@ class TaskFormScreen extends ConsumerStatefulWidget {
 
 class _TaskFormScreenState extends ConsumerState<TaskFormScreen> {
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
+  String selectedCategory = "Work"; // Default category
 
   @override
   void initState() {
     super.initState();
     if (widget.task != null) {
       titleController.text = widget.task!.title;
-      categoryController.text = widget.task!.category;
+      selectedCategory = widget.task!.category;
     }
   }
 
@@ -34,14 +34,26 @@ class _TaskFormScreenState extends ConsumerState<TaskFormScreen> {
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextField(
               controller: titleController,
               decoration: InputDecoration(labelText: "Task Title"),
             ),
-            TextField(
-              controller: categoryController,
-              decoration: InputDecoration(labelText: "Category"),
+            SizedBox(height: 16),
+            Text("Category",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            DropdownButton<String>(
+              value: selectedCategory,
+              items: ["Work", "Personal", "Shopping", "Others"]
+                  .map((category) =>
+                      DropdownMenuItem(value: category, child: Text(category)))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedCategory = value!;
+                });
+              },
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -52,7 +64,7 @@ class _TaskFormScreenState extends ConsumerState<TaskFormScreen> {
                   await taskService.addTask(Task(
                     id: "",
                     title: titleController.text,
-                    category: categoryController.text,
+                    category: selectedCategory,
                     completed: false,
                   ));
                 } else {
@@ -60,7 +72,7 @@ class _TaskFormScreenState extends ConsumerState<TaskFormScreen> {
                   await taskService.updateTask(Task(
                     id: widget.task!.id,
                     title: titleController.text,
-                    category: categoryController.text,
+                    category: selectedCategory,
                     completed: widget.task!.completed,
                   ));
                 }
