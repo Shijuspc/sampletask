@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import '../notifications/fcm_service.dart';
 import 'task_model.dart';
 
 class TaskService {
@@ -11,12 +12,9 @@ class TaskService {
     DocumentReference docRef = await _taskCollection.add(task.toMap());
     await docRef.update({'id': docRef.id});
 
-    // Send FCM notification
     FirebaseMessaging.instance.subscribeToTopic("tasks");
-    FirebaseMessaging.instance.sendMessage(
-      to: "tasks",
-      data: {"title": "New Task Added", "body": task.title},
-    );
+
+    FCMService().showNotification("New Task", task.title);
   }
 
   Future<void> updateTask(Task task) async {
