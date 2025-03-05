@@ -5,6 +5,10 @@ final authProvider = Provider<AuthController>((ref) {
   return AuthController();
 });
 
+final authStateProvider = StreamProvider<User?>((ref) {
+  return FirebaseAuth.instance.authStateChanges();
+});
+
 class AuthController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 

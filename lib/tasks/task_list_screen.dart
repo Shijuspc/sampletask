@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../auth/auth_controller.dart';
+import '../auth/login_screen.dart';
 import '../theme/theme_provider.dart';
 import 'task_controller.dart';
 import 'task_form_screen.dart';
@@ -21,8 +23,21 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Task Manager"),
-        actions: [],
+        title: Text(
+          "Task Manager",
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await ref.read(authProvider).logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => LoginScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
