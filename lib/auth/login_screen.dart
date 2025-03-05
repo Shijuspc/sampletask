@@ -97,7 +97,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       IconData icon, bool isPassword) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -126,8 +125,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 )
               : null,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          filled: true,
-          fillColor: Colors.white,
         ),
         obscureText: isPassword ? !isPasswordVisible : false,
       ),

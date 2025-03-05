@@ -5,14 +5,13 @@ ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.blue,
   scaffoldBackgroundColor: const Color.fromARGB(255, 247, 247, 247),
   textTheme: TextTheme(
-    bodyMedium: TextStyle(
-      color: Colors.black87,
-    ),
+    bodyMedium: TextStyle(color: Colors.black87),
+    titleMedium: TextStyle(color: Colors.black),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue, // Button background
-      foregroundColor: Colors.white, // Text color
+      backgroundColor: Colors.blue,
+      foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -20,12 +19,11 @@ ThemeData lightTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: Colors.blue, // Text button color
+      foregroundColor: Colors.blue,
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    hintStyle: TextStyle(color: Colors.black),
     fillColor: Colors.white,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
@@ -35,20 +33,25 @@ ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(8),
       borderSide: BorderSide(color: Colors.blue, width: 2),
     ),
-    labelStyle: TextStyle(color: Colors.black),
+    labelStyle: TextStyle(color: Colors.blue),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Colors.blue,
   ),
 );
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.blue,
+  scaffoldBackgroundColor: const Color.fromARGB(255, 21, 21, 21),
   textTheme: TextTheme(
     bodyMedium: TextStyle(color: Colors.white),
+    titleMedium: TextStyle(color: Colors.white),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue, // Button background
-      foregroundColor: Colors.white, // Text color
+      backgroundColor: Colors.blue,
+      foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -56,12 +59,12 @@ ThemeData darkTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: Colors.blue, // Text button color
+      foregroundColor: Colors.blue,
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: Colors.grey[800], // Dark mode text field background
+    fillColor: Colors.grey[800],
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: BorderSide(color: Colors.blue),
@@ -70,6 +73,9 @@ ThemeData darkTheme = ThemeData(
       borderRadius: BorderRadius.circular(8),
       borderSide: BorderSide(color: Colors.blue, width: 2),
     ),
-    labelStyle: TextStyle(color: Colors.black),
+    labelStyle: TextStyle(color: Colors.blue),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Colors.blue,
   ),
 );

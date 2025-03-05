@@ -59,7 +59,7 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
               Switch(
                 value: ref.watch(themeProvider),
                 onChanged: (value) =>
-                    ref.read(themeProvider.notifier).state = value,
+                    ref.read(themeProvider.notifier).toggleTheme(value),
               ),
             ],
           ),

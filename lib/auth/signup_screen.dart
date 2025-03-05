@@ -112,7 +112,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       {bool isConfirm = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -149,8 +148,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 )
               : null,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          filled: true,
-          fillColor: Colors.white,
         ),
         obscureText: isPassword
             ? (isConfirm ? !isConfirmPasswordVisible : !isPasswordVisible)
