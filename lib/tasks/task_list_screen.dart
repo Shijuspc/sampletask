@@ -6,7 +6,6 @@ import '../auth/login_screen.dart';
 import '../theme/theme_provider.dart';
 import 'task_controller.dart';
 import 'task_form_screen.dart';
-import 'task_model.dart';
 import 'task_service.dart';
 
 class TaskListScreen extends ConsumerStatefulWidget {
@@ -16,6 +15,7 @@ class TaskListScreen extends ConsumerStatefulWidget {
 
 class _TaskListScreenState extends ConsumerState<TaskListScreen> {
   String selectedCategory = "All";
+  Set<String> selectedTasks = {};
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,29 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
       appBar: AppBar(
         title: Text(
           "Task Manager",
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
         ),
         actions: [
+          Text(
+            "Dark mode",
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          Transform.scale(
+            scale: 0.6,
+            child: Switch(
+              activeColor: Colors.black,
+              value: ref.watch(themeProvider),
+              onChanged: (value) =>
+                  ref.read(themeProvider.notifier).toggleTheme(value),
+            ),
+          ),
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(
+              Icons.logout,
+            ),
             onPressed: () async {
               await ref.read(authProvider).logout();
               Navigator.pushReplacement(
@@ -41,26 +60,64 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButton<String>(
-                value: selectedCategory,
-                items: ["All", "Work", "Personal", "Shopping", "Others"]
-                    .map((category) => DropdownMenuItem(
-                        value: category, child: Text(category)))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedCategory = value!;
-                  });
-                },
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).inputDecorationTheme.fillColor,
+                    borderRadius: BorderRadius.circular(8)),
+                child: SizedBox(
+                  width: 150,
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    menuWidth: 180,
+                    value: selectedCategory,
+                    dropdownColor:
+                        Theme.of(context).inputDecorationTheme.fillColor,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    items: ["All", "Work", "Personal", "Shopping", "Others"]
+                        .map(
+                          (category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(
+                              category,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCategory = value!;
+                      });
+                    },
+                    icon: Icon(Icons.arrow_drop_down,
+                        color: Colors.blue), // Custom dropdown icon
+                    underline: Container(
+                      height: 0,
+                      color: Colors.blue, // Underline color
+                    ),
+                    borderRadius:
+                        BorderRadius.circular(8), // Rounded dropdown menu
+                  ),
+                ),
               ),
-              Switch(
-                value: ref.watch(themeProvider),
-                onChanged: (value) =>
-                    ref.read(themeProvider.notifier).toggleTheme(value),
-              ),
+              if (selectedTasks.isNotEmpty)
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: deleteSelectedTasks, // Delete selected tasks
+                ),
             ],
           ),
           Expanded(
@@ -79,20 +136,23 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
                   itemCount: filteredTasks.length,
                   itemBuilder: (context, index) {
                     final task = filteredTasks[index];
+                    final isSelected = selectedTasks.contains(task.id);
+
                     return ListTile(
                       title: Text(task.title),
                       subtitle: Text(task.category),
                       leading: Checkbox(
-                        value: task.completed,
+                        activeColor: Colors.blue,
+                        checkColor: Colors.white,
+                        value: isSelected,
                         onChanged: (value) {
-                          TaskService().updateTask(
-                            Task(
-                              id: task.id,
-                              title: task.title,
-                              category: task.category,
-                              completed: value ?? false,
-                            ),
-                          );
+                          setState(() {
+                            if (value == true) {
+                              selectedTasks.add(task.id);
+                            } else {
+                              selectedTasks.remove(task.id);
+                            }
+                          });
                         },
                       ),
                       trailing: Row(
@@ -138,5 +198,14 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void deleteSelectedTasks() {
+    for (String taskId in selectedTasks) {
+      TaskService().deleteTask(taskId);
+    }
+    setState(() {
+      selectedTasks.clear();
+    });
   }
 }

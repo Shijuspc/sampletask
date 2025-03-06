@@ -29,8 +29,14 @@ class _TaskFormScreenState extends ConsumerState<TaskFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: Text(widget.task == null ? "Add Task" : "Edit Task")),
+      appBar: AppBar(
+          title: Text(
+        widget.task == null ? "Add Task" : "Edit Task",
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+      )),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -43,17 +49,33 @@ class _TaskFormScreenState extends ConsumerState<TaskFormScreen> {
             SizedBox(height: 16),
             Text("Category",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: selectedCategory,
-              items: ["Work", "Personal", "Shopping", "Others"]
-                  .map((category) =>
-                      DropdownMenuItem(value: category, child: Text(category)))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedCategory = value!;
-                });
-              },
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  borderRadius: BorderRadius.circular(8)),
+              child: SizedBox(
+                width: 150,
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  menuWidth: 180,
+                  value: selectedCategory,
+                  items: ["Work", "Personal", "Shopping", "Others"]
+                      .map((category) => DropdownMenuItem(
+                          value: category, child: Text(category)))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCategory = value!;
+                    });
+                  },
+                  underline: Container(
+                    height: 0,
+                    color: Colors.blue, // Underline color
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(

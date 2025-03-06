@@ -20,10 +20,14 @@ class TaskService {
     FCMService().showNotification("Update Task", task.title);
   }
 
+  Future<void> selectTask(Task task) async {
+    await _taskCollection.doc(task.id).update(task.toMap());
+  }
+
   Future<void> deleteTask(String id) async {
     await _taskCollection.doc(id).delete();
 
-    FCMService().showNotification("Deleted Task", id);
+    //FCMService().showNotification("Deleted Task", id);
   }
 
   Stream<List<Task>> getTasks() {
