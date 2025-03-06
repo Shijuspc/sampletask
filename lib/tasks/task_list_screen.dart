@@ -47,6 +47,7 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen> {
           IconButton(
             icon: Icon(
               Icons.logout,
+              color: Colors.white,
             ),
             onPressed: () async {
               await ref.read(authProvider).logout();

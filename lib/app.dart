@@ -21,6 +21,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       theme: isDarkMode ? darkTheme : lightTheme,
+      debugShowCheckedModeBanner: false,
       home: authState.when(
         data: (user) {
           if (user == null) {

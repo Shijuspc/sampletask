@@ -8,7 +8,7 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: Colors.blue,
     ),
     iconButtonTheme: IconButtonThemeData(
-        style: IconButton.styleFrom(foregroundColor: Colors.white)),
+        style: IconButton.styleFrom(foregroundColor: Colors.black)),
     textTheme: TextTheme(
       bodyMedium: TextStyle(color: Colors.black87),
       bodySmall: TextStyle(color: Colors.white),
